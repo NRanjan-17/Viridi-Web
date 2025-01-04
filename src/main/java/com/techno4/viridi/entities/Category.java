@@ -1,35 +1,31 @@
 package com.techno4.viridi.entities;
 
+import java.util.ArrayList;
+import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
 
-/**
- *
- * @author Nalinish Ranjan
- */
 @Entity
 public class Category {
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private int categoryId;
-   private String categoryTitle;
-   private String categoryDescription;
-   @OneToMany(mappedBy = "category")
-   private List<Product> products = new ArrayList<>();
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int categoryId;
+    private String categoryTitle;
+    private String categoryDescription;
+    @OneToMany(mappedBy = "category")
+    private List<Product> products = new ArrayList<>();
 
     public Category() {
     }
 
-    public Category(int categoryId, String categoryTitle, String categoryDescription, List<Product> products) {
+    public Category(int categoryId, String categoryTitle, String categoryDescription) {
         this.categoryId = categoryId;
         this.categoryTitle = categoryTitle;
         this.categoryDescription = categoryDescription;
-        this.products = products;
     }
 
     public Category(String categoryTitle, String categoryDescription, List<Product> products) {
@@ -69,9 +65,12 @@ public class Category {
     public void setProducts(List<Product> products) {
         this.products = products;
     }
+    
+    
 
     @Override
     public String toString() {
         return "Category{" + "categoryId=" + categoryId + ", categoryTitle=" + categoryTitle + ", categoryDescription=" + categoryDescription + '}';
     }
+
 }

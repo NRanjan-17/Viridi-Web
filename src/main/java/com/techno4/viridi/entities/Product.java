@@ -7,12 +7,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
-/**
- *
- * @author Nalinish Ranjan
- */
 @Entity
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int pId;
@@ -27,17 +24,6 @@ public class Product {
     private Category category;
 
     public Product() {
-    }
-
-    public Product(int pId, String pName, String pDesc, String pPhoto, int pPrice, int pDiscount, int pQuantity, Category category) {
-        this.pId = pId;
-        this.pName = pName;
-        this.pDesc = pDesc;
-        this.pPhoto = pPhoto;
-        this.pPrice = pPrice;
-        this.pDiscount = pDiscount;
-        this.pQuantity = pQuantity;
-        this.category = category;
     }
 
     public Product(String pName, String pDesc, String pPhoto, int pPrice, int pDiscount, int pQuantity, Category category) {
@@ -118,4 +104,11 @@ public class Product {
     public String toString() {
         return "Product{" + "pId=" + pId + ", pName=" + pName + ", pDesc=" + pDesc + ", pPhoto=" + pPhoto + ", pPrice=" + pPrice + ", pDiscount=" + pDiscount + ", pQuantity=" + pQuantity + '}';
     }
+
+    //calculate price after discount
+    public int getPriceAfterApplyingDiscount() {
+        int d = (int) ((this.getpDiscount() / 100.0) * this.getpPrice());
+        return this.getpPrice() - d;
+    }
+
 }

@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.techno4.viridi"},{"l":"com.techno4.viridi.dao"},{"l":"com.techno4.viridi.entities"},{"l":"com.techno4.viridi.helper"},{"l":"com.techno4.viridi.resources"},{"l":"com.techno4.viridi.servlets"}];updateSearchResults();

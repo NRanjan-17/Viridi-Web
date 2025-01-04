@@ -1,0 +1,5 @@
+# Created at 2025-01-04T12:07:21.509
+Boot Manifest-JAR contains absolute paths in classpath 'D:\Users\Nalinish Ranjan\Documents\GitHub\Viridi\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+
