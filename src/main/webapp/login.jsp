@@ -67,10 +67,6 @@
             text-decoration: underline;
         }
 
-        .container {
-            margin-top: 50px;
-        }
-
         @media (max-width: 576px) {
             .card {
                 margin: 15px;

@@ -16,7 +16,7 @@
         <jakartaee.version>11.0.0-M1</jakartaee.version>
         <java.version>23</java.version>
         <hibernate.version>6.6.3.Final</hibernate.version>
-        <mysql.version>8.0.33</mysql.version>
+        <mysql.version>9.1.0</mysql.version>
     </properties>
 
     <dependencies>

@@ -1,49 +1,65 @@
+/* css/style.css */
+:root {
+    --primary-green: #4CAF50;
+    --hover-bg: #f9f9f9;
+    --font-family: 'Product Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+}
+
+/* Global font settings */
+* {
+    font-family: var(--font-family) !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Your existing styles with some refinements */
 .custom-bg {
-    background: #4CAF50 !important; /* Green background */
+    background: var(--primary-green) !important;
 }
 
 .admin .card {
-    border: 1px solid #4CAF50; /* Green border */
+    border: 1px solid var(--primary-green);
+    transition: all 0.3s ease;
 }
 
 .admin .card:hover {
-    background: #f9f9f9; /* Light white/gray background on hover */
+    background: var(--hover-bg);
     cursor: pointer;
 }
 
 .list-group-item.active {
-    background: #4CAF50 !important; /* Active green background */
-    border-color: #4CAF50 !important; /* Green border */
+    background: var(--primary-green) !important;
+    border-color: var(--primary-green) !important;
 }
 
 .discount-label {
-    font-size: 10px !important;
+    font-size: 0.75rem !important;
     font-style: italic !important;
-    /* text-decoration: line-through!important; */
-    color: #4CAF50; /* Green text */
+    color: var(--primary-green);
 }
 
 .product-card:hover {
-    background: #f9f9f9; /* Light white/gray background on hover */
+    background: var(--hover-bg);
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 /* Toast */
-
 #toast {
     min-width: 300px;
     position: fixed;
     bottom: 30px;
     left: 50%;
-    margin-left: -120px;
-    background: #4CAF50; /* Green background */
+    transform: translateX(-50%);
+    background: var(--primary-green);
     padding: 15px;
-    color: white; /* White text */
+    color: white;
     text-align: center;
-    z-index: 1;
-    font-size: 18px;
+    z-index: 1000;
+    font-size: 1.125rem;
     visibility: hidden;
-    box-shadow: 0px 0px 100px #000;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    border-radius: 4px;
 }
 
 #toast.display {
@@ -56,7 +72,6 @@
         bottom: 0;
         opacity: 0;
     }
-
     to {
         bottom: 30px;
         opacity: 1;
@@ -68,10 +83,24 @@
         bottom: 30px;
         opacity: 1;
     }
-
     to {
         bottom: 0;
         opacity: 0;
     }
 }
 
+/* Custom navbar styles */
+.navbar-brand {
+    padding-right: 2rem;
+}
+
+.navbar-nav .nav-link {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+
+/* Optional: Add hover effect to nav links */
+.navbar-nav .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+}
