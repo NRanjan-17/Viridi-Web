@@ -1,14 +1,15 @@
 com\techno4\viridi\servlets\LoginServlet.class
-com\techno4\viridi\JakartaRestConfiguration.class
 com\techno4\viridi\dao\CategoryDao.class
 com\techno4\viridi\dao\UserDao.class
 com\techno4\viridi\entities\Category.class
 com\techno4\viridi\entities\Product.class
-com\techno4\viridi\resources\JakartaEE11Resource.class
+com\techno4\viridi\entities\PriceRequest.class
 com\techno4\viridi\helper\Helper.class
 com\techno4\viridi\servlets\LogoutServlet.class
 com\techno4\viridi\helper\FactoryProvider.class
+com\techno4\viridi\dao\PriceRequestDao.class
 com\techno4\viridi\dao\ProductDao.class
 com\techno4\viridi\servlets\ProductOperationServlet.class
 com\techno4\viridi\entities\User.class
 com\techno4\viridi\servlets\RegisterServlet.class
+com\techno4\viridi\servlets\PriceRequestServlet.class

@@ -29,12 +29,15 @@
 
             <!-- Right aligned items -->
             <ul class="navbar-nav ml-auto">
+                <% if (user1 != null) { %>
                 <li class="nav-item active">
                     <a class="nav-link" href="#!" data-toggle="modal" data-target="#cart">  
                         <i class="fa fa-shopping-cart" style="font-size: 18px;"></i> 
                         <span class="ml-0 cart-items">( 0 )</span>  
                     </a>
                 </li>
+                <% } %>
+                
                 <% if (user1 == null) { %>
                 <li class="nav-item active">
                     <a class="nav-link" style="font-weight: 400; font-size: 18px;" href="login.jsp">Login</a>

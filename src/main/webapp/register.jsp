@@ -6,6 +6,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New User - Sign Up</title>
+        <link rel="icon" type="image/x-icon" href="img/logo.png">
+
 
     <%@include file="components/common_css_js.jsp" %>
     <style>
@@ -112,7 +114,7 @@
                     <div class="card-body">
                         <!-- Logo -->
                         <div class="logo-container text-center">
-                            <img src="img/fclogo2.png" alt="FarmConnect Logo">
+                            <img src="img/logo.png" alt="Green Technology MarketPlace Logo">
                         </div>
 
                         <!-- Sign Up Form -->

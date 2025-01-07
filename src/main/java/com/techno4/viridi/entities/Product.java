@@ -13,20 +13,30 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int pId;
+
     private String pName;
+
     @Column(length = 3000)
     private String pDesc;
+
     private String pPhoto;
+
     private int pPrice;
+
     private int pDiscount;
+
     private int pQuantity;
+
     @ManyToOne
     private Category category;
+
+    @ManyToOne
+    private User farmer; // Add this line to establish a relationship with the User entity
 
     public Product() {
     }
 
-    public Product(String pName, String pDesc, String pPhoto, int pPrice, int pDiscount, int pQuantity, Category category) {
+    public Product(String pName, String pDesc, String pPhoto, int pPrice, int pDiscount, int pQuantity, Category category, User farmer) {
         this.pName = pName;
         this.pDesc = pDesc;
         this.pPhoto = pPhoto;
@@ -34,8 +44,10 @@ public class Product {
         this.pDiscount = pDiscount;
         this.pQuantity = pQuantity;
         this.category = category;
+        this.farmer = farmer; // Initialize the farmer
     }
 
+    // Getters and Setters
     public int getpId() {
         return pId;
     }
@@ -100,15 +112,22 @@ public class Product {
         this.category = category;
     }
 
+    public User getFarmer() { // Add getter for farmer
+        return farmer;
+    }
+
+    public void setFarmer(User farmer) { // Add setter for farmer
+        this.farmer = farmer;
+    }
+
     @Override
     public String toString() {
         return "Product{" + "pId=" + pId + ", pName=" + pName + ", pDesc=" + pDesc + ", pPhoto=" + pPhoto + ", pPrice=" + pPrice + ", pDiscount=" + pDiscount + ", pQuantity=" + pQuantity + '}';
     }
 
-    //calculate price after discount
+    // Calculate price after discount
     public int getPriceAfterApplyingDiscount() {
         int d = (int) ((this.getpDiscount() / 100.0) * this.getpPrice());
         return this.getpPrice() - d;
     }
-
 }

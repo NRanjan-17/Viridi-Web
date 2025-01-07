@@ -122,6 +122,82 @@ public class ProductOperationServlet extends HttpServlet {
                 }
                 return;
             }
+           
+    else if (op.trim().equals("updateproduct")) {
+    try {
+        int productId = Integer.parseInt(request.getParameter("id"));
+        String pName = request.getParameter("pName");
+        String pDesc = request.getParameter("pDesc");
+        int pPrice = Integer.parseInt(request.getParameter("pPrice"));
+        int pDiscount = Integer.parseInt(request.getParameter("pDiscount"));
+        int pQuantity = Integer.parseInt(request.getParameter("pQuantity"));
+        Part part = request.getPart("pPic");
+
+        ProductDao productDao = new ProductDao(FactoryProvider.getFactory());
+        Product product = productDao.getProductById(productId);
+        
+        if (product == null) {
+            throw new Exception("Product not found");
+        }
+
+        // Update basic product details
+        product.setpName(pName);
+        product.setpDesc(pDesc);
+        product.setpPrice(pPrice);
+        product.setpDiscount(pDiscount);
+        product.setpQuantity(pQuantity);
+
+        // Handle image upload only if a new image is provided
+        if (part != null && part.getSize() > 0) {
+            String fileName = part.getSubmittedFileName();
+            if (fileName != null && !fileName.trim().isEmpty()) {
+                String uploadPath = request.getServletContext().getRealPath("") + "img" + File.separator + "products";
+                
+                // Create directories if they don't exist
+                Files.createDirectories(Paths.get(uploadPath));
+
+                // Delete old image if it exists
+                if (product.getpPhoto() != null) {
+                    File oldFile = new File(uploadPath + File.separator + product.getpPhoto());
+                    if (oldFile.exists()) {
+                        oldFile.delete();
+                    }
+                }
+
+                // Save new image
+                try (FileOutputStream fos = new FileOutputStream(uploadPath + File.separator + fileName);
+                     InputStream is = part.getInputStream()) {
+                    byte[] data = new byte[is.available()];
+                    is.read(data);
+                    fos.write(data);
+                }
+                
+                product.setpPhoto(fileName);
+            }
+        }
+
+        // Update the product in the database
+        boolean updated = productDao.updateProduct(product);
+        
+        HttpSession httpSession = request.getSession();
+        if (updated) {
+            httpSession.setAttribute("message", "Product updated successfully!");
+        } else {
+            httpSession.setAttribute("message", "Failed to update product.");
+        }
+        response.sendRedirect("farmerProductManagement.jsp");
+        
+    } catch (NumberFormatException e) {
+        HttpSession httpSession = request.getSession();
+        httpSession.setAttribute("message", "Error: Invalid number format in product details");
+        response.sendRedirect("editProduct.jsp?id=" + request.getParameter("id"));
+    } catch (Exception e) {
+        HttpSession httpSession = request.getSession();
+        httpSession.setAttribute("message", "Error: " + e.getMessage());
+        response.sendRedirect("editProduct.jsp?id=" + request.getParameter("id"));
+    }
+    return;
+}
         }
     }
 

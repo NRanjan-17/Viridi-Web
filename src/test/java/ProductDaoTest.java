@@ -1,112 +1,229 @@
 
 import com.techno4.viridi.dao.ProductDao;
 import com.techno4.viridi.entities.Product;
+import com.techno4.viridi.entities.Category;
+import com.techno4.viridi.entities.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-public class ProductDaoTest {
+class ProductDaoTest {
 
+    @Mock
     private SessionFactory sessionFactory;
+
+    @Mock
     private Session session;
+
+    @Mock
+    private Transaction transaction;
+
+    @Mock
+    private Query<Product> query;
+
     private ProductDao productDao;
 
-    @Before
-    public void setUp() {
-        // Create mock objects
-        sessionFactory = mock(SessionFactory.class);
-        session = mock(Session.class);
-
-        // Set up the ProductDao with the mocked SessionFactory
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
         productDao = new ProductDao(sessionFactory);
-
-        // Mock the behavior of the SessionFactory to return the mocked Session
         when(sessionFactory.openSession()).thenReturn(session);
+        when(session.beginTransaction()).thenReturn(transaction);
     }
 
     @Test
-    public void testSaveProduct() {
+    void saveProduct_Success() {
+        // Arrange
         Product product = new Product();
-        product.setpName("Test Product");
-        product.setpDesc("Test Description");
-        product.setpPrice((int) 100.0);
-        product.setpDiscount((int) 10.0);
-        product.setpPhoto("test.jpg");
+        when(session.save(any(Product.class))).thenReturn(1);
 
-        // Mock the transaction
-        Transaction transaction = mock(Transaction.class);
-        when(session.beginTransaction()).thenReturn(transaction);
-
-        // Call the method to test
+        // Act
         boolean result = productDao.saveProduct(product);
 
-        // Verify interactions
+        // Assert
+        assertTrue(result);
         verify(session).save(product);
         verify(transaction).commit();
-        verify(session).close();
-
-        // Assert the result
-        assertTrue(result);
     }
 
     @Test
-    public void testGetAllProducts() {
-        // Prepare mock data
-        List<Product> mockProducts = new ArrayList<>();
-        mockProducts.add(new Product());
-        mockProducts.add(new Product());
+    void saveProduct_Failure() {
+        // Arrange
+        Product product = new Product();
+        doThrow(new RuntimeException("DB Error")).when(session).save(any(Product.class));
 
-        // Mock the query and its behavior
-        Query<Product> query = mock(Query.class);
-        when(session.createQuery("from Product")).thenReturn(query);
-        when(query.list()).thenReturn(mockProducts);
+        // Act
+        boolean result = productDao.saveProduct(product);
 
-        // Call the method to test
-        List<Product> products = productDao.getAllProducts();
-
-        // Verify interactions
-        verify(session).createQuery("from Product");
-        verify(query).list();
-        verify(session).close();
-
-        // Assert the result
-        assertEquals(2, products.size());
+        // Assert
+        assertFalse(result);
+        verify(transaction).rollback();
     }
 
     @Test
-    public void testGetAllProductsById() {
+    void getAllProducts_Success() {
+        // Arrange
+        List<Product> expectedProducts = new ArrayList<>();
+        expectedProducts.add(new Product());
+        when(session.createQuery(anyString(), eq(Product.class))).thenReturn(query);
+        when(query.list()).thenReturn(expectedProducts);
+
+        // Act
+        List<Product> result = productDao.getAllProducts();
+
+        // Assert
+        assertEquals(expectedProducts, result);
+        verify(session).createQuery("from Product", Product.class);
+    }
+
+    @Test
+    void getAllProductsById_Success() {
+        // Arrange
         int categoryId = 1;
+        List<Product> expectedProducts = new ArrayList<>();
+        when(session.createQuery(anyString(), eq(Product.class))).thenReturn(query);
+        when(query.setParameter(anyString(), any())).thenReturn(query);
+        when(query.list()).thenReturn(expectedProducts);
 
-        // Prepare mock data
-        List<Product> mockProducts = new ArrayList<>();
-        mockProducts.add(new Product());
-        mockProducts.add(new Product());
+        // Act
+        List<Product> result = productDao.getAllProductsById(categoryId);
 
-        // Mock the query and its behavior
-        Query<Product> query = mock(Query.class);
-        when(session.createQuery("from Product as p where p.category.categoryId =: id")).thenReturn(query);
-        when(query.setParameter("id", categoryId)).thenReturn(query);
-        when(query.list()).thenReturn(mockProducts);
-
-        // Call the method to test
-        List<Product> products = productDao.getAllProductsById(categoryId);
-
-        // Verify interactions
-        verify(session).createQuery("from Product as p where p.category.categoryId =: id");
+        // Assert
+        assertEquals(expectedProducts, result);
         verify(query).setParameter("id", categoryId);
-        verify(query).list();
-        verify(session).close();
+    }
 
-        // Assert the result
-        assertEquals(2, products.size());
+    @Test
+    void getAllProductsByFarmerId_Success() {
+        // Arrange
+        int farmerId = 1;
+        List<Product> expectedProducts = new ArrayList<>();
+        when(session.createQuery(anyString(), eq(Product.class))).thenReturn(query);
+        when(query.setParameter(anyString(), any())).thenReturn(query);
+        when(query.list()).thenReturn(expectedProducts);
+
+        // Act
+        List<Product> result = productDao.getAllProductsByFarmerId(farmerId);
+
+        // Assert
+        assertEquals(expectedProducts, result);
+        verify(query).setParameter("farmerId", farmerId);
+    }
+
+    @Test
+    void getProductById_Success() {
+        // Arrange
+        int productId = 1;
+        Product expectedProduct = new Product();
+        when(session.get(Product.class, productId)).thenReturn(expectedProduct);
+
+        // Act
+        Product result = productDao.getProductById(productId);
+
+        // Assert
+        assertEquals(expectedProduct, result);
+    }
+
+    @Test
+    void getProductCount_Success() {
+        // Arrange
+        long expectedCount = 5L;
+        Query<Long> countQuery = mock(Query.class);
+        when(session.createQuery(anyString())).thenReturn(countQuery);
+        when(countQuery.getSingleResult()).thenReturn(expectedCount);
+
+        // Act
+        long result = productDao.getProductCount();
+
+        // Assert
+        assertEquals(expectedCount, result);
+    }
+
+    @Test
+    void updateProduct_Success() {
+        // Arrange
+        Product product = new Product();
+
+        // Act
+        boolean result = productDao.updateProduct(product);
+
+        // Assert
+        assertTrue(result);
+        verify(session).update(product);
+        verify(transaction).commit();
+    }
+
+    @Test
+    void updateProduct_Failure() {
+        // Arrange
+        Product product = new Product();
+        doThrow(new RuntimeException("DB Error")).when(session).update(any(Product.class));
+
+        // Act
+        boolean result = productDao.updateProduct(product);
+
+        // Assert
+        assertFalse(result);
+        verify(transaction).rollback();
+    }
+
+    @Test
+    void deleteProduct_Success() {
+        // Arrange
+        int productId = 1;
+        Product product = new Product();
+        when(session.get(Product.class, productId)).thenReturn(product);
+
+        // Act
+        boolean result = productDao.deleteProduct(productId);
+
+        // Assert
+        assertTrue(result);
+        verify(session).delete(product);
+        verify(transaction).commit();
+    }
+
+    @Test
+    void deleteProduct_NotFound() {
+        // Arrange
+        int productId = 1;
+        when(session.get(Product.class, productId)).thenReturn(null);
+
+        // Act
+        boolean result = productDao.deleteProduct(productId);
+
+        // Assert
+        assertFalse(result);
+        verify(session, never()).delete(any());
+        verify(transaction).commit();
+    }
+
+    @Test
+    void deleteProduct_Failure() {
+        // Arrange
+        int productId = 1;
+        Product product = new Product();
+        when(session.get(Product.class, productId)).thenReturn(product);
+        doThrow(new RuntimeException("DB Error")).when(session).delete(any(Product.class));
+
+        // Act
+        boolean result = productDao.deleteProduct(productId);
+
+        // Assert
+        assertFalse(result);
+        verify(transaction).rollback();
     }
 }

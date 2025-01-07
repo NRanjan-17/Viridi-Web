@@ -5,19 +5,25 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About FarmConnect</title>
+    <title>About VIRIDI</title>
+        <link rel="icon" type="image/x-icon" href="img/logo.png">
+
     <%@include file="components/common_css_js.jsp" %>
     
     <style>
         /* Custom Styles */
         .hero-section {
-            background-image: url('img/farmconnect-hero.jpg');
+            background-image: url('img/background.png');
             background-size: cover;
             background-position: center;
             padding: 100px 0;
             color: white;
             text-align: center;
             border-bottom: 5px solid #28a745;
+        }
+        
+        .fa, .fas {
+            font-family: "Font Awesome 5 Free" !important;
         }
 
         .hero-section h1 {
@@ -129,7 +135,7 @@
 
     <!-- Hero Section -->
     <div class="hero-section">
-        <h1>Welcome to FarmConnect</h1>
+        <h1>Welcome to VIRIDI</h1>
         <p>Bringing Farmers and Consumers Together for a Better Tomorrow</p>
     </div>
 
@@ -156,7 +162,7 @@
                     <i class="fas fa-users"></i>
                 </div>
                 <h4 class="text-center">Farmer-Consumer Connection</h4>
-                <p>FarmConnect bridges the gap between farmers and consumers, ensuring direct transactions without middlemen.</p>
+                <p>VIRIDI bridges the gap between farmers and consumers, ensuring direct transactions without middlemen.</p>
             </div>
             <div class="col-md-4">
                 <div class="icon-box">
@@ -170,7 +176,7 @@
                     <i class="fas fa-truck"></i>
                 </div>
                 <h4 class="text-center">Fast Delivery</h4>
-                <p>FarmConnect ensures timely delivery of fresh produce, right from the farm to your doorstep.</p>
+                <p>VIRIDI ensures timely delivery of fresh produce, right from the farm to your doorstep.</p>
             </div>
         </div>
     </div>
@@ -205,21 +211,21 @@
             <div class="col-md-4">
                 <div class="testimonial">
                     <img src="img/testimonial1.jpg" alt="Customer 1">
-                    <p>"FarmConnect has made it so easy for me to purchase fresh, organic produce. Highly recommend!"</p>
+                    <p>"VIRIDI has made it so easy for me to purchase fresh, organic produce. Highly recommend!"</p>
                     <h5>- John Doe, Consumer</h5>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="testimonial">
                     <img src="img/testimonial2.jpg" alt="Farmer 1">
-                    <p>"As a farmer, FarmConnect has given me the opportunity to directly connect with customers, ensuring better prices and faster sales."</p>
+                    <p>"As a farmer, VIRIDI has given me the opportunity to directly connect with customers, ensuring better prices and faster sales."</p>
                     <h5>- Jane Smith, Farmer</h5>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="testimonial">
                     <img src="img/testimonial3.jpg" alt="Customer 2">
-                    <p>"I love the convenience and freshness of the produce I get from FarmConnect. The delivery is always on time!"</p>
+                    <p>"I love the convenience and freshness of the produce I get from VIRIDI. The delivery is always on time!"</p>
                     <h5>- Sarah Lee, Consumer</h5>
                 </div>
             </div>
@@ -228,7 +234,7 @@
 
     <!-- Call to Action -->
     <div class="container">
-        <a href="register.jsp" class="cta-button">Join FarmConnect Today</a>
+        <a href="register.jsp" class="cta-button">Join VIRIDI Today</a>
     </div>
 
     <%@include file="components/common_modals.jsp" %>
